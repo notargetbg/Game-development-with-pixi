@@ -20,8 +20,14 @@ const config = {
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
-            }   
-        ]    
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: [
+                    'file-loader'
+                ]
+            }
+        ]   
     },
     mode: 'development',
     devServer: {
@@ -31,7 +37,7 @@ const config = {
     plugins: [
         new CleanWebpackPlugin(['build']),
         new HtmlWebpackPlugin({
-          title: 'Hot Module Replacement'
+          template: './src/index.html'
         }),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin()
