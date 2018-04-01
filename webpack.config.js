@@ -1,7 +1,8 @@
 const path = require('path');
 const path_DIR = path.resolve(__dirname, 'build');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+//const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
 const config = {
@@ -9,14 +10,14 @@ const config = {
     devtool: 'inline-source-map',
     output: {
         filename: 'bundle.js',
-        path: path_DIR,
+        path: path_DIR
     },
     module: {
         rules: [
-            {
-                test: /\.txt$/,
-                use: 'raw-loader'
-            },
+            // {
+            //     test: /\.txt$/,
+            //     use: 'raw-loader'
+            // },
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
@@ -26,7 +27,7 @@ const config = {
                 use: [
                     'file-loader'
                 ]
-            }
+            }            
         ]   
     },
     mode: 'development',
@@ -35,13 +36,17 @@ const config = {
         hot: true
     },
     plugins: [
-        new CleanWebpackPlugin(['build']),
+    //    new CleanWebpackPlugin(['build']),
         new HtmlWebpackPlugin({
           template: './src/index.html'
         }),
         new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin()
-      ]
+        new webpack.HotModuleReplacementPlugin(),
+        new CopyWebpackPlugin([{
+            from: 'src/assets',
+            to: path_DIR
+        }])
+    ]
 };
 
 module.exports = config;
